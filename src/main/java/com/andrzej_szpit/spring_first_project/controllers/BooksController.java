@@ -11,16 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.andrzej_szpit.spring_first_project.data.BooksRepository;
 import com.andrzej_szpit.spring_first_project.models.Book;
+import com.bugsnag.Bugsnag;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController{
     @Autowired
     private BooksRepository booksData;
+    Bugsnag bugsnag = new Bugsnag("becf737121d92acf64d1d69f00506005");
 
     @RequestMapping(value = "/addNew", method = RequestMethod.GET)
     public ModelAndView addNewBook(){
         Book book = new Book();
+        try {
+            new ModelAndView("newBook", "form", book);
+        } catch (Throwable exception) {
+            bugsnag.notify(exception);
+        }
         return new ModelAndView("newBook", "form", book);
     }
 
