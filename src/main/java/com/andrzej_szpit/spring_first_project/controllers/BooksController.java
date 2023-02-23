@@ -31,7 +31,7 @@ public class BooksController{
         List<Book> allBooks = booksData.findAll();
         long x=0;
         try {
-            booksData.deleteById(x);;
+            x=5/0;
         } catch (Throwable exception) {
             bugsnag.notify(exception);
         }
