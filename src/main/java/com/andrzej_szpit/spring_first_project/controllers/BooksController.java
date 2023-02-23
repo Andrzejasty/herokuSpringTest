@@ -23,17 +23,18 @@ public class BooksController{
     @RequestMapping(value = "/addNew", method = RequestMethod.GET)
     public ModelAndView addNewBook(){
         Book book = new Book();
-        try {
-            new ModelAndView("newBook", "form", book);
-        } catch (Throwable exception) {
-            bugsnag.notify(exception);
-        }
         return new ModelAndView("newBook", "form", book);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView books(){
         List<Book> allBooks = booksData.findAll();
+        long x=0;
+        try {
+            booksData.deleteById(x);;
+        } catch (Throwable exception) {
+            bugsnag.notify(exception);
+        }
         return new ModelAndView("allBooks", "books", allBooks);
     }
     
