@@ -25,15 +25,7 @@ public class BooksController{
     @Autowired
     private BooksRepository booksData;
     Bugsnag bugsnag = new Bugsnag("becf737121d92acf64d1d69f00506005");
-    Client client = ClientBuilder.newClient();
-    Response response = client.target('https://webtopdf.expeditedaddons.com/?api_key=D341A50899MX6Z5THINEV2207ORGB7K3LQWCY18U6P4FJS&content=http://www.wikipedia.org&margin=10&html_width=1024&title=My PDF Title')
-    .request(MediaType.TEXT_PLAIN_TYPE)
-    .get();
-
-    System.out.println("status: " + response.getStatus());
-    System.out.println("headers: " + response.getHeaders());
-    System.out.println("body:" + response.readEntity(String.class));
-
+    
     @RequestMapping(value = "/addNew", method = RequestMethod.GET)
     public ModelAndView addNewBook(){
         Book book = new Book();
@@ -43,6 +35,15 @@ public class BooksController{
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView books(){
         List<Book> allBooks = booksData.findAll();
+        Client client = ClientBuilder.newClient();
+    Response response = client.target("https://webtopdf.expeditedaddons.com/?api_key=D341A50899MX6Z5THINEV2207ORGB7K3LQWCY18U6P4FJS&content=http://www.wikipedia.org&margin=10&html_width=1024&title=My PDF Title")
+    .request(MediaType.TEXT_PLAIN_TYPE)
+    .get();
+
+    System.out.println("status: " + response.getStatus());
+    System.out.println("headers: " + response.getHeaders());
+    System.out.println("body:" + response.readEntity(String.class));
+
         return new ModelAndView("allBooks", "books", allBooks);
     }
     
